@@ -18,6 +18,11 @@ else()
     set(CMAKE_CXX_STANDARD 17)
 endif()
 
+if (NV_USD)
+    # if NV_USD is on, we need to compile with the old C++ ABI
+    add_compile_definitions(_GLIBCXX_USE_CXX11_ABI=0)
+endif()
+
 # set target directories
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/_install")
 set(CMAKE_INSTALL_BINDIR "bin")

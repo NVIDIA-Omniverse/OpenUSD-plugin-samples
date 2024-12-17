@@ -86,7 +86,7 @@ $CWD/tools/packman/python.sh scripts/setup.py --usd-flavor=$USD_FLAVOR --usd-ver
 
 if [[ "$USD_FLAVOR" == "nv-usd" ]]
 then
-    cmake -B ./_build/cmake -DNV_USD=ON -DCMAKE_BUILD_TYPE=$CONFIG -D_GLIBCXX_USE_CXX11_ABI=0
+    cmake -B ./_build/cmake -DNV_USD=ON -DCMAKE_BUILD_TYPE=$CONFIG
     cmake --build ./_build/cmake --config $CONFIG --target install
 else
     cmake -B ./_build/cmake -DCMAKE_BUILD_TYPE=$CONFIG

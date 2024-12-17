@@ -736,10 +736,17 @@ function (openusd_python_plugin NAME)
     # at build time so we link the library explicitly
     target_link_libraries(${PXR_PLUGIN_PYTHON_TARGET_NAME} PUBLIC $<TARGET_LINKER_FILE:${NAME}>)
 
-    set(CMAKE_INSTALL_BINDIR ${PXR_PLUGIN_PYTHON_MODULE_NAME})
-    install(TARGETS ${PXR_PLUGIN_PYTHON_TARGET_NAME}
-        RUNTIME
-            DESTINATION ${CMAKE_INSTALL_BINDIR})
+    if (WIN32)
+        set(CMAKE_INSTALL_BINDIR ${PXR_PLUGIN_PYTHON_MODULE_NAME})
+        install(TARGETS ${PXR_PLUGIN_PYTHON_TARGET_NAME}
+            RUNTIME
+                DESTINATION ${CMAKE_INSTALL_BINDIR})
+    else()
+        set(CMAKE_INSTALL_LIBDIR ${PXR_PLUGIN_PYTHON_MODULE_NAME})
+        install(TARGETS ${PXR_PLUGIN_PYTHON_TARGET_NAME}
+            RUNTIME
+                DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    endif()
 
     if(NOT DEFINED PXR_PLUGIN_ROOT)
         get_filename_component(PXR_PLUGIN_ROOT ${CMAKE_PARENT_LIST_FILE} DIRECTORY)
