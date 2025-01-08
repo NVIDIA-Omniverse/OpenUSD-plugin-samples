@@ -236,7 +236,7 @@ Finally, we add a dependency to `omni.usd.libs`, which is the extension in `kit`
 "omni.usd.libs" = {}
 ```
 
-Now we need to make sure the schemas are registered as plug-ins with OpenUSD.  To do this, we will perform explicit registration via the `__init__.py` file parallel to your `extension.py` file in your `kit` extension by adding the following content:
+Now we need to make sure the schemas are registered as plug-ins with OpenUSD.  To do this, we will perform explicit registration via the `__init__.py` file parallel to your `extension.py` file in your `kit` extension by adding the following content (note, the specific path for `pluginsRoot` below will depend on the relative directory structure between your python file performing the registration and the location of the `plugins` directory copied from the schema build artifacts):
 
 ```
 from pxr import Plug
