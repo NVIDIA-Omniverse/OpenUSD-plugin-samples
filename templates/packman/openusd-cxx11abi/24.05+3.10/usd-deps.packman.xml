@@ -1,0 +1,8 @@
+<project toolsVersion="5.6">
+  <dependency name="usd" linkPath="../../../../_build/usd-deps/usd">
+    <package name="usd.py310.${platform_target_abi}.usdview.${config}" version="0.24.05-gl.7496+pxr-24.05-security-patch-matx-1.38.9.6881e126" />
+  </dependency>
+  <dependency name="python" linkPath="../../../../_build/usd-deps/python">
+    <package name="python" version="3.10.15+nv3-${platform}" />
+  </dependency>
+</project>
