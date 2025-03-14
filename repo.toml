@@ -3,11 +3,12 @@
 usd_root = "${root}/_build/usd-deps/nv-usd/%{config}"
 usd_python_root = "${root}/_build/usd-deps/python"
 generate_plugin_buildfiles = true
-plugin_buildfile_format = "cmake"
+plugin_buildfile_format = "premake"
 generate_root_buildfile = true
+repoman_compatible_premake_root_buildfile = true
 
 # this tells repo_usd about our codeful schema extension
-[repo_usd.plugin.omniExampleSchema]
+[repo_usd.schema.omniExampleSchema]
 schema_file = "${root}/src/usd-plugins/schema/omniExampleSchema/schema.usda"
 plugin_dir = "${root}/src/usd-plugins/schema/omniExampleSchema"
 generate_dir = "${root}/src/usd-plugins/schema/omniExampleSchema/generated"
@@ -22,7 +23,7 @@ usd_lib_dependencies = [
 ]
 
 # this tells repo_usd about our codeless schema extension
-[repo_usd.plugin.omniExampleCodelessSchema]
+[repo_usd.schema.omniExampleCodelessSchema]
 schema_file = "${root}/src/usd-plugins/schema/omniExampleCodelessSchema/schema.usda"
 plugin_dir = "${root}/src/usd-plugins/schema/omniExampleCodelessSchema"
 generate_dir = "${root}/src/usd-plugins/schema/omniExampleCodelessSchema/generated"
@@ -31,7 +32,7 @@ is_codeless = true
 
 # this tells repo_usd about the codeless schema for use by
 # our file format / dynamic payload infrastructure
-[repo_usd.plugin.omniMetSchema]
+[repo_usd.schema.omniMetSchema]
 schema_file = "${root}/src/usd-plugins/schema/omniMetSchema/schema.usda"
 plugin_dir = "${root}/src/usd-plugins/schema/omniMetSchema"
 generate_dir = "${root}/src/usd-plugins/schema/omniMetSchema/generated"
@@ -118,16 +119,14 @@ usd_lib_dependencies = [
 [repo_usd.plugin.omniMetProvider."platform:windows-x86_64"]
 additional_libs = [
     "edfFileFormat",
+    "libcurl",
     "zlib",
     "ws2_32",
     "crypt32"
 ]
-additional_static_libs = [
-    "libcurl"
-]
 additional_library_dirs = [
     "../../../../_install/%{platform}/%{config}/edfFileFormat/lib",
-    "../../../../_build/target-deps/libcurl/lib",
+    "../../../../_build/target-deps/libcurl/lib/rt_dynamic/release",
     "../../../../_build/target-deps/zlib/lib/rt_dynamic/release"
 ]
 
@@ -143,7 +142,7 @@ additional_static_libs = [
 ]
 additional_library_dirs = [
     "../../../../_install/%{platform}/%{config}/edfFileFormat/lib",
-    "../../../../_build/target-deps/libcurl/lib",
+    "../../../../_build/target-deps/libcurl/lib/release",
     "../../../../_build/target-deps/zlib/lib",
     "../../../../_build/target-deps/openssl/lib"
 ]
@@ -160,175 +159,7 @@ additional_static_libs = [
 ]
 additional_library_dirs = [
     "../../../../_install/%{platform}/%{config}/edfFileFormat/lib",
-    "../../../../_build/target-deps/libcurl/lib",
+    "../../../../_build/target-deps/libcurl/lib/release",
     "../../../../_build/target-deps/zlib/lib",
     "../../../../_build/target-deps/openssl/lib"
-]
-
-[repo_usd.plugin.omniGeoSceneIndex]
-plugin_dir = "${root}/src/hydra-plugins/omniGeoSceneIndex"
-install_root = "${root}/_install/%{platform}/%{config}/omniGeoSceneIndex"
-include_dir = "include/omniGeoSceneIndex"
-private_headers = [
-    "api.h",
-    "computedDependentDataSource.h",
-    "computedPrimDataSource.h",
-    "geospatialDataSource.h",
-    "geospatialSceneIndex.h",
-    "geospatialSceneIndexPlugin.h",
-    "localPositionAPIAdapter.h",
-    "localPositionDataSource.h",
-    "localPositionSchema.h",
-    "referencePositionAPIAdapter.h",
-    "referencePositionDataSource.h",
-    "referencePositionSchema.h"
-]
-cpp_files = [
-    "computedDependentDataSource.cpp",
-    "computedPrimDataSource.cpp",
-    "geospatialDataSource.cpp",
-    "geospatialSceneIndex.cpp",
-    "geospatialSceneIndexPlugin.cpp",
-    "localPositionAPIAdapter.cpp",
-    "localPositionDataSource.cpp",
-    "localPositionSchema.cpp",
-    "referencePositionAPIAdapter.cpp",
-    "referencePositionDataSource.cpp",
-    "referencePositionSchema.cpp"
-]
-resource_files = [
-    "plugInfo.json"
-]
-usd_lib_dependencies = [
-    "arch",
-    "tf",
-    "work",
-    "plug",
-    "vt",
-    "gf",
-    "hd",
-    "hf",
-    "sdf",
-    "usd",
-    "usdGeom",
-    "usdImaging"
-]
-additional_include_dirs = [
-    "${root}/_build/target-deps/omni-geospatial/include"
-]
-additional_library_dirs = [
-    "${root}/_build/target-deps/omni-geospatial/bin"
-]
-additional_libs = [
-    "omniGeospatial"
-]
-
-[repo_usd.plugin.omniMetricsAssembler]
-plugin_dir = "${root}/src/hydra-plugins/omniMetricsAssembler"
-install_root = "${root}/_install/%{platform}/%{config}/omniMetricsAssembler"
-include_dir = "include/omniMetricsAssembler"
-private_headers = [
-    "api.h",
-    "metricsAdapter.h",
-    "metricsDataSource.h",
-    "metricsDoubleDataSource.h",
-    "metricsSceneIndex.h",
-    "metricsSceneIndexPlugin.h",
-    "metricsSchema.h"
-]
-cpp_files = [
-    "metricsAdapter.cpp",
-    "metricsDataSource.cpp",
-    "metricsDoubleDataSource.cpp",
-    "metricsSceneIndex.cpp",
-    "metricsSceneIndexPlugin.cpp",
-    "metricsSchema.cpp"
-]
-resource_files = [
-    "plugInfo.json"
-]
-usd_lib_dependencies = [
-    "arch",
-    "tf",
-    "work",
-    "plug",
-    "vt",
-    "gf",
-    "hd",
-    "hf",
-    "sdf",
-    "usd",
-    "usdGeom",
-    "usdImaging"
-]
-
-[repo_usd.plugin.omniWarpSceneIndex]
-plugin_dir = "${root}/src/hydra-plugins/omniWarpSceneIndex"
-schema_file = "${root}/src/hydra-plugins/omniWarpSceneIndex/schema.usda"
-library_prefix = "OmniWarpSceneIndex"
-install_root = "${root}/_install/%{platform}/%{config}/omniWarpSceneIndex"
-include_dir = "include/omniWarpSceneIndex"
-private_headers = [
-    "api.h",
-    "tokens.h",
-    "warpComputationAPI.h",
-    "warpComputationAPIAdapter.h",
-    "warpComputationSchema.h",
-    "warpPythonModule.h",
-    "warpSceneIndex.h",
-    "warpSceneIndexPlugin.h"
-]
-cpp_files = [
-    "tokens.cpp",
-    "warpComputationAPI.cpp",
-    "warpComputationAPIAdapter.cpp",
-    "warpComputationSchema.cpp",
-    "warpPythonModule.cpp",
-    "warpSceneIndex.cpp",
-    "warpSceneIndexPlugin.cpp",
-    "moduleDeps.cpp"
-]
-pymodule_cpp_files = [
-    "module.cpp",
-    "wrapTokens.cpp",
-    "wrapWarpComputationAPI.cpp"
-]
-pymodule_files = [
-    "__init__.py",
-    "oceanSim/__init__.py",
-    "oceanSim/preferences.py",
-    "oceanSim/preferencesUI.py",
-    "warpModules/__init__.py",
-    "warpModules/cloth.py",
-    "warpModules/deform01.py",
-    "warpModules/deform02.py",
-    "warpModules/ocean.py",
-    "warpModules/particles.py"
-]
-resource_files = [
-    "plugInfo.json",
-    "schema.usda"
-]
-usd_lib_dependencies = [
-    "arch",
-    "tf",
-    "gf",
-    "plug",
-    "trace",
-    "vt",
-    "work",
-    "hio",
-    "garch",
-    "glf",
-    "hd",
-    "hdsi",
-    "hdx",
-    "hf",
-    "pxOsd",
-    "sdf",
-    "sdr",
-    "usd",
-    "usdGeom",
-    "usdShade",
-    "usdImaging",
 ]

@@ -1,5 +1,5 @@
 <project toolsVersion="5.6">
     <dependency name="repo_usd" linkPath="../_repo/repo_usd">
-        <package name="repo_usd" version="4.0.1" />
+        <package name="repo_usd" version="3.0.11" />
     </dependency>
 </project>

@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.0.0
+
+- Simplified build infrastructure such that standard tooling is used
+  everywhere except pulling down packman packages
+- Removed kit-extension and updated README with instructions on
+  integrating schema builds with standard kit-app-template extensions
+- Eliminated repo-tooling based generators
+
 ## 3.0.0
 
 - Added several examples for Hydra 2 scene index plugins

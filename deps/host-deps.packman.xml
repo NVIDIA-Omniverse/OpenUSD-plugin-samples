@@ -1,0 +1,5 @@
+<project toolsVersion="5.6">
+  <dependency name="usd-plugin-cmake-utils" linkPath="../_build/host-deps/usd-plugin-cmake-utils">
+    <source path="../tools/build" />
+  </dependency>
+</project>
