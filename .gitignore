@@ -1,14 +1,14 @@
-﻿# all folders starting with _ are local
+﻿# All folders starting with `_` are local
 _*/
 
-# byte-compiled python files
+# Byte-compiled Python files
 *.py[cod]
 
-# packman package files
+# Packman package files
 *@*.7z
 *@*.zip
 
-# binaries
+# Binaries
 *.ico
 *.bmp
 *.gif
@@ -33,19 +33,24 @@ _*/
 *.mat
 *.suo
 
-# visual studio filfes
+# Visual Studio files
 /.vs
 **/.vscode/ipch
 
 # PACKAGE-LICENSES/
 PACKAGE-DEPS.yaml
 
-# generated files under usd-plugins/schema
+# All generated CMakeLists.txt files, other than reference sample schema plugins
+**/CMakeLists.txt
+!src/usd-plugins/schema/**/CMakeLists.txt
+!CMakeLists.txt
+
+# Generated files under usd-plugins/schema
 src/usd-plugins/schema/omniExampleSchema/generated
 src/usd-plugins/schema/omniExampleCodelessSchema/generated
 src/usd-plugins/schema/omniMetSchema/generated
 
-# generated files for hydra-plugins/omniWarpSceneIndex
+# Generated files for hydra-plugins/omniWarpSceneIndex
 src/hydra-plugins/omniWarpSceneIndex/__init__.py
 src/hydra-plugins/omniWarpSceneIndex/api.h
 src/hydra-plugins/omniWarpSceneIndex/generatedSchema.usda
@@ -57,6 +62,3 @@ src/hydra-plugins/omniWarpSceneIndex/warpComputationAPI.cpp
 src/hydra-plugins/omniWarpSceneIndex/warpComputationAPI.h
 src/hydra-plugins/omniWarpSceneIndex/wrapWarpComputationAPI.cpp
 src/hydra-plugins/omniWarpSceneIndex/wrapTokens.cpp
-
-# all generated CMakeLists.txt files
-**/CMakeLists.txt
