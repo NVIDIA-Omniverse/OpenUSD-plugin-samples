@@ -62,21 +62,46 @@ endif()
 # include directory if we don't specify it because
 # of cmake paths and the fact that using modules
 # we have no control over limitation of NO_CMAKE_PATH
-set(Python3_ROOT_DIR "${PXR_OPENUSD_PYTHON_DIR}")
+# Step 1: Get the root of the env (strip the 'bin' from the path)
+get_filename_component(Python3_ROOT_DIR "${PXR_OPENUSD_PYTHON_DIR}" DIRECTORY)
+
+# Step 2: Try to locate include directories
 if (WIN32)
-    set(Python3_INCLUDE_DIR "${PXR_OPENUSD_PYTHON_DIR}/include")
+    set(Python3_INCLUDE_DIR "${Python3_ROOT_DIR}/include")
 else()
-    # linux python packages have an extra level of indirection
-    # on the include directory with the python version
-    file(GLOB python_include_location "${PXR_OPENUSD_PYTHON_DIR}/include/python*")
-    if (python_include_location)
-        set(Python3_INCLUDE_DIR "${python_include_location}")
+    # On Linux/macOS
+    set(_candidate_include_dir "${Python3_ROOT_DIR}/include")
+
+    if(EXISTS "${_candidate_include_dir}")
+        # Check for direct include/pythonX.Y/
+        file(GLOB python_include_dirs "${_candidate_include_dir}/python*")
+
+        list(LENGTH python_include_dirs _num_python_include_dirs)
+        if (_num_python_include_dirs EQUAL 1)
+            list(GET python_include_dirs 0 Python3_INCLUDE_DIR)
+        elseif(_num_python_include_dirs GREATER 1)
+            message(FATAL_ERROR "Multiple python include directories found in ${_candidate_include_dir}: ${python_include_dirs}")
+        else()
+            # Fall back if no python*/ subdir exists — maybe it's a weird system install
+            set(Python3_INCLUDE_DIR "${_candidate_include_dir}")
+        endif()
     else()
-        message(FATAL_ERROR "Unable to determine python include directory under ${PXR_OPENUSD_PYTHON_DIR}")
+        message(FATAL_ERROR "Expected include directory does not exist: ${_candidate_include_dir}")
     endif()
 endif()
+
+message(STATUS "Python3_ROOT_DIR resolved to: ${Python3_ROOT_DIR}")
+message(STATUS "Python3_INCLUDE_DIR resolved to: ${Python3_INCLUDE_DIR}")
+
 set(Python3_FIND_STRATEGY "LOCATION")
-set(Python3_FIND_VIRTUALENV "NEVER")
+
+# NVIDIA's original script incorrectly used "NEVER" for Python3_FIND_VIRTUALENV.
+# CMake expects "FIRST", "ONLY", or "STANDARD". We choose "STANDARD" here 
+# because conda is not a virtualenv, and standard lookup is appropriate.
+if (NOT DEFINED Python3_FIND_VIRTUALENV)
+    set(Python3_FIND_VIRTUALENV "STANDARD")
+endif()
+
 set(Python3_FIND_FRAMEWORK "LAST")
 set(Python3_FIND_REGISTRY "NEVER")
 find_package(Python3
